@@ -1,0 +1,64 @@
+{
+  "name": "ウィンドウ管理・列挙制御スイート",
+  "description": "Win32およびクロスプラットフォームのネイティブウィンドウ列挙、ハンドル検索、アクティブ化、閉じる、表示/非表示、位置座標、サイズ調整、タイトル変更などを提供します",
+  "group": "ウィンドウ操作",
+  "actions": {
+    "ActiveWindow": {
+      "display_name": "ウィンドウをアクティブ化",
+      "description": "指定したウィンドウを最前面に移動し、アクティブ状態にします",
+      "keywords": ["window", "active", "foreground", "アクティブ"],
+      "fields": {
+        "window": {
+          "display_name": "対象ウィンドウ",
+          "description": "ウィンドウハンドルまたはタイトル一致式",
+          "presets": {
+            "Foreground": "アクティブウィンドウ",
+            "Desktop": "デスクトップ"
+          }
+        }
+      }
+    },
+    "CloseWindow": {
+      "display_name": "ウィンドウを閉じる",
+      "description": "指定したウィンドウに終了シグナル (WM_CLOSE) を送信します",
+      "keywords": ["window", "close", "destroy", "閉じる"],
+      "fields": {
+        "window": {
+          "display_name": "対象ウィンドウ",
+          "description": "ウィンドウハンドルまたはタイトル一致式"
+        }
+      }
+    },
+    "EnumWindows": {
+      "display_name": "ウィンドウを列挙",
+      "description": "システム上の表示中またはトップレベルウィンドウをすべて検索し一覧を返します",
+      "keywords": ["window", "enum", "list", "列挙"],
+      "fields": {
+        "filter": {
+          "display_name": "フィルタ条件",
+          "description": "ウィンドウフィルタ条件",
+          "presets": {
+            "all": "すべてのウィンドウ",
+            "visible": "表示ウィンドウのみ",
+            "top_level": "トップレベルウィンドウ"
+          }
+        }
+      }
+    },
+    "FindWindow": {
+      "display_name": "ウィンドウを検索",
+      "description": "クラス名、タイトルキーワード、またはプロセス名に基づいてウィンドウハンドルを検索します",
+      "keywords": ["window", "find", "search", "検索"],
+      "fields": {
+        "title": {
+          "display_name": "ウィンドウタイトル",
+          "description": "ウィンドウタイトル検索文字列"
+        },
+        "class_name": {
+          "display_name": "クラス名",
+          "description": "ウィンドウクラス名"
+        }
+      }
+    }
+  }
+}

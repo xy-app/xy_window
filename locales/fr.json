@@ -1,0 +1,67 @@
+{
+  "name": "Native Window Management Suite",
+  "description": "Fournit l'énumération des fenêtres Win32 et multiplateformes, la recherche de poignées, l'activation, la fermeture, le masquage et le redimensionnement.",
+  "group": "Gestion des fenêtres",
+  "actions": {
+    "ActiveWindow": {
+      "display_name": "Activer la fenêtre",
+      "description": "Place la fenêtre spécifiée au premier plan et la rend active"
+    },
+    "CloseWindow": {
+      "display_name": "Fermer la fenêtre",
+      "description": "Envoie un signal de fermeture (WM_CLOSE) à la fenêtre spécifiée"
+    },
+    "EnumWindows": {
+      "display_name": "Énumérer les fenêtres",
+      "description": "Énumère toutes les fenêtres visibles et renvoie la liste"
+    },
+    "FindWindow": {
+      "display_name": "Rechercher une fenêtre",
+      "description": "Trouve une fenêtre par titre ou nom de classe"
+    },
+    "FlashWindow": {
+      "display_name": "Faire clignoter la fenêtre",
+      "description": "Fait clignoter la barre de titre ou l'icône de la barre des tâches"
+    },
+    "MessageBox": {
+      "display_name": "Boîte de message (MessageBox)",
+      "description": "Affiche une boîte de dialogue modale"
+    },
+    "PositionWindow": {
+      "display_name": "Positionner la fenêtre",
+      "description": "Déplace la fenêtre aux coordonnées spécifiées"
+    },
+    "SpecialWindow": {
+      "display_name": "Fenêtre spéciale",
+      "description": "Fonctions avancées de contrôle des fenêtres"
+    },
+    "WindowAncestor": {
+      "display_name": "Fenêtre parente",
+      "description": "Obtient la fenêtre ancêtre ou parente"
+    },
+    "WindowCaption": {
+      "display_name": "Titre de la fenêtre",
+      "description": "Lit ou modifie le titre de la fenêtre"
+    },
+    "WindowPoint": {
+      "display_name": "Point de fenêtre",
+      "description": "Obtient la fenêtre aux coordonnées spécifiées"
+    },
+    "WindowSize": {
+      "display_name": "Taille de la fenêtre",
+      "description": "Modifie la largeur et la hauteur de la fenêtre"
+    },
+    "WindowVisible": {
+      "display_name": "Visibilité de la fenêtre",
+      "description": "Affiche ou masque la fenêtre"
+    },
+    "WindowXy": {
+      "display_name": "Coordonnées de la fenêtre",
+      "description": "Obtient les coordonnées et les dimensions actuelles de la fenêtre"
+    },
+    "WinRun": {
+      "display_name": "Exécuter programme",
+      "description": "Lance un programme externe ou ouvre un fichier"
+    }
+  }
+}

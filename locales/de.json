@@ -1,0 +1,67 @@
+{
+  "name": "Native Window Management Suite",
+  "description": "Bietet Win32- und plattformübergreifende Fensterverwaltung, Handle-Suche, Aktivierung, Schließen, Ein-/Ausblenden und Größenanpassung.",
+  "group": "Fenstersteuerung",
+  "actions": {
+    "ActiveWindow": {
+      "display_name": "Fenster aktivieren",
+      "description": "Bringt das angegebene Fenster in den Vordergrund und aktiviert es"
+    },
+    "CloseWindow": {
+      "display_name": "Fenster schließen",
+      "description": "Sendet ein Schließsignal (WM_CLOSE) an das angegebene Fenster"
+    },
+    "EnumWindows": {
+      "display_name": "Fenster auflisten",
+      "description": "Listet alle sichtbaren Fenster auf und gibt eine Liste zurück"
+    },
+    "FindWindow": {
+      "display_name": "Fenster suchen",
+      "description": "Sucht ein Fenster nach Titel oder Klassenname"
+    },
+    "FlashWindow": {
+      "display_name": "Fenster blinken lassen",
+      "description": "Lässt die Titelleiste oder das Taskleistensymbol blinken"
+    },
+    "MessageBox": {
+      "display_name": "Nachrichtenfeld (MessageBox)",
+      "description": "Zeigt ein modales Dialogfeld an"
+    },
+    "PositionWindow": {
+      "display_name": "Fenster positionieren",
+      "description": "Verschiebt das Fenster an die angegebenen Koordinaten"
+    },
+    "SpecialWindow": {
+      "display_name": "Spezialfenster",
+      "description": "Erweiterte Fensterfunktionen und Statussteuerung"
+    },
+    "WindowAncestor": {
+      "display_name": "Übergeordnetes Fenster",
+      "description": "Ermittelt das übergeordnete Fenster"
+    },
+    "WindowCaption": {
+      "display_name": "Fenstertitel",
+      "description": "Liest oder ändert den Fenstertitel"
+    },
+    "WindowPoint": {
+      "display_name": "Fensterpunkt",
+      "description": "Ermittelt das Fenster an einer bestimmten Bildschirmkoordinate"
+    },
+    "WindowSize": {
+      "display_name": "Fenstergröße",
+      "description": "Ändert die Fensterbreite und -höhe"
+    },
+    "WindowVisible": {
+      "display_name": "Fenstersichtbarkeit",
+      "description": "Blendet das Fenster ein oder aus"
+    },
+    "WindowXy": {
+      "display_name": "Fensterkoordinaten",
+      "description": "Ruft die aktuellen Koordinaten und Abmessungen ab"
+    },
+    "WinRun": {
+      "display_name": "Programm ausführen",
+      "description": "Startet ein externes Programm oder öffnet eine Datei"
+    }
+  }
+}

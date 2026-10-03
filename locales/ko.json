@@ -1,0 +1,64 @@
+{
+  "name": "네이티브 창 관리 및 열거 제품군",
+  "description": "Win32 및 크로스 플랫폼 네이티브 창 열거, 핸들 검색, 활성화, 닫기, 표시/숨기기, 좌표 위치 지정, 크기 조정, 제목 변경 등을 제공합니다",
+  "group": "창",
+  "actions": {
+    "ActiveWindow": {
+      "display_name": "창 활성화",
+      "description": "지정된 창을 전면으로 가져와 활성 상태로 만듭니다",
+      "keywords": ["window", "active", "foreground", "창 활성화"],
+      "fields": {
+        "window": {
+          "display_name": "대상 창",
+          "description": "창 핸들 또는 제목 일치 식",
+          "presets": {
+            "Foreground": "활성 창",
+            "Desktop": "바탕화면"
+          }
+        }
+      }
+    },
+    "CloseWindow": {
+      "display_name": "창 닫기",
+      "description": "지정된 창에 종료 신호 (WM_CLOSE)를 보냅니다",
+      "keywords": ["window", "close", "destroy", "창 닫기"],
+      "fields": {
+        "window": {
+          "display_name": "대상 창",
+          "description": "창 핸들 또는 제목 일치 식"
+        }
+      }
+    },
+    "EnumWindows": {
+      "display_name": "모든 창 열거",
+      "description": "시스템의 모든 표시 가능 또는 최상위 창을 탐색하여 목록을 반환합니다",
+      "keywords": ["window", "enum", "list", "창 열거"],
+      "fields": {
+        "filter": {
+          "display_name": "필터 규칙",
+          "description": "창 필터 조건",
+          "presets": {
+            "all": "모든 창",
+            "visible": "표시되는 창만",
+            "top_level": "최상위 창"
+          }
+        }
+      }
+    },
+    "FindWindow": {
+      "display_name": "창 찾기",
+      "description": "클래스 이름, 제목 키워드 또는 프로세스 이름을 기반으로 창 핸들을 검색합니다",
+      "keywords": ["window", "find", "search", "창 찾기"],
+      "fields": {
+        "title": {
+          "display_name": "창 제목",
+          "description": "창 제목 일치 텍스트"
+        },
+        "class_name": {
+          "display_name": "클래스 이름",
+          "description": "창 클래스 이름"
+        }
+      }
+    }
+  }
+}

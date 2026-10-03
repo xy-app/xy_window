@@ -1,0 +1,64 @@
+{
+  "name": "Native Window Management Suite",
+  "description": "Provides Win32 and cross-platform native window enumeration, handle lookup, activation, closing, show/hide, positioning, resizing, title modification, and modal control.",
+  "group": "Window",
+  "actions": {
+    "ActiveWindow": {
+      "display_name": "Active Window",
+      "description": "Bring the specified window to the foreground and make it active",
+      "keywords": ["window", "active", "foreground", "focus"],
+      "fields": {
+        "window": {
+          "display_name": "Target Window",
+          "description": "Window handle or title match expression",
+          "presets": {
+            "Foreground": "Foreground",
+            "Desktop": "Desktop"
+          }
+        }
+      }
+    },
+    "CloseWindow": {
+      "display_name": "Close Window",
+      "description": "Send a close signal (WM_CLOSE) to the specified window",
+      "keywords": ["window", "close", "destroy"],
+      "fields": {
+        "window": {
+          "display_name": "Target Window",
+          "description": "Window handle or title match expression"
+        }
+      }
+    },
+    "EnumWindows": {
+      "display_name": "Enumerate Windows",
+      "description": "Enumerate all visible or top-level windows across the system and return window list",
+      "keywords": ["window", "enum", "list"],
+      "fields": {
+        "filter": {
+          "display_name": "Filter Rule",
+          "description": "Window filter criteria",
+          "presets": {
+            "all": "All",
+            "visible": "Visible",
+            "top_level": "Top Level"
+          }
+        }
+      }
+    },
+    "FindWindow": {
+      "display_name": "Find Window",
+      "description": "Find window handle by class name, title keyword, or process name",
+      "keywords": ["window", "find", "search"],
+      "fields": {
+        "title": {
+          "display_name": "Window Title",
+          "description": "Window title matching string"
+        },
+        "class_name": {
+          "display_name": "Class Name",
+          "description": "Window class name"
+        }
+      }
+    }
+  }
+}

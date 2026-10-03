@@ -1,0 +1,64 @@
+{
+  "name": "官方窗口管理与枚举控制套件",
+  "description": "提供Win32与跨平台原生窗口枚举、句柄查找、激活、关闭、显示/隐藏、坐标定位、大小调整、标题修改与系统运行弹窗控制",
+  "group": "窗口",
+  "actions": {
+    "ActiveWindow": {
+      "display_name": "激活窗口",
+      "description": "将指定窗口带到前台并设为当前活动激活状态",
+      "keywords": ["window", "active", "foreground", "激活窗口"],
+      "fields": {
+        "window": {
+          "display_name": "目标窗口",
+          "description": "窗口句柄或标题匹配表达式",
+          "presets": {
+            "Foreground": "当前活动窗口",
+            "Desktop": "桌面"
+          }
+        }
+      }
+    },
+    "CloseWindow": {
+      "display_name": "关闭窗口",
+      "description": "向指定窗口发送关闭信号 (WM_CLOSE)",
+      "keywords": ["window", "close", "destroy", "关闭窗口"],
+      "fields": {
+        "window": {
+          "display_name": "目标窗口",
+          "description": "窗口句柄或标题匹配表达式"
+        }
+      }
+    },
+    "EnumWindows": {
+      "display_name": "枚举所有窗口",
+      "description": "遍历系统全部可见或顶层窗口并返回窗口列表",
+      "keywords": ["window", "enum", "list", "枚举窗口"],
+      "fields": {
+        "filter": {
+          "display_name": "过滤规则",
+          "description": "窗口过滤条件",
+          "presets": {
+            "all": "全部窗口",
+            "visible": "仅可见窗口",
+            "top_level": "顶层窗口"
+          }
+        }
+      }
+    },
+    "FindWindow": {
+      "display_name": "查找窗口",
+      "description": "根据类名、标题关键字或进程名称精确/模糊查找窗口句柄",
+      "keywords": ["window", "find", "search", "查找窗口"],
+      "fields": {
+        "title": {
+          "display_name": "窗口标题",
+          "description": "窗口标题匹配文本"
+        },
+        "class_name": {
+          "display_name": "窗口类名",
+          "description": "窗口 Class Name"
+        }
+      }
+    }
+  }
+}

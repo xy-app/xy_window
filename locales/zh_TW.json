@@ -1,0 +1,64 @@
+{
+  "name": "官方視窗管理與列舉控制套件",
+  "description": "提供Win32與跨平台原生視窗列舉、控制代碼查找、啟用、關閉、顯示/隱藏、坐標定位、大小調整、標題修改與系統執行彈窗控制",
+  "group": "視窗",
+  "actions": {
+    "ActiveWindow": {
+      "display_name": "啟用視窗",
+      "description": "將指定視窗帶到前景並設為當前使用中狀態",
+      "keywords": ["window", "active", "foreground", "啟用視窗", "激活視窗"],
+      "fields": {
+        "window": {
+          "display_name": "目標視窗",
+          "description": "視窗控制代碼或標題比對表示式",
+          "presets": {
+            "Foreground": "當前前景視窗",
+            "Desktop": "桌面"
+          }
+        }
+      }
+    },
+    "CloseWindow": {
+      "display_name": "關閉視窗",
+      "description": "向指定視窗傳送關閉訊號 (WM_CLOSE)",
+      "keywords": ["window", "close", "destroy", "關閉視窗"],
+      "fields": {
+        "window": {
+          "display_name": "目標視窗",
+          "description": "視窗控制代碼或標題比對表示式"
+        }
+      }
+    },
+    "EnumWindows": {
+      "display_name": "列舉所有視窗",
+      "description": "遍歷系統全部可見或最上層視窗並返回視窗清單",
+      "keywords": ["window", "enum", "list", "列舉視窗"],
+      "fields": {
+        "filter": {
+          "display_name": "篩選規則",
+          "description": "視窗篩選條件",
+          "presets": {
+            "all": "全部視窗",
+            "visible": "僅可見視窗",
+            "top_level": "最上層視窗"
+          }
+        }
+      }
+    },
+    "FindWindow": {
+      "display_name": "尋找視窗",
+      "description": "根據類別名稱、標題關鍵字或處理程序名稱精確/模糊尋找視窗控制代碼",
+      "keywords": ["window", "find", "search", "尋找視窗"],
+      "fields": {
+        "title": {
+          "display_name": "視窗標題",
+          "description": "視窗標題比對文字"
+        },
+        "class_name": {
+          "display_name": "視窗類別名稱",
+          "description": "視窗 Class Name"
+        }
+      }
+    }
+  }
+}
