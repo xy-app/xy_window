@@ -1,64 +1,79 @@
 {
   "name": "官方視窗管理與列舉控制套件",
-  "description": "提供Win32與跨平台原生視窗列舉、控制代碼查找、啟用、關閉、顯示/隱藏、坐標定位、大小調整、標題修改與系統執行彈窗控制",
+  "description": "提供 Win32 與跨平台原生視窗列舉、控制代碼搜尋、啟用、關閉、顯示/隱藏、座標定位、大小調整、標題修改與系統彈窗控制",
   "group": "視窗",
   "actions": {
     "ActiveWindow": {
-      "display_name": "啟用視窗",
-      "description": "將指定視窗帶到前景並設為當前使用中狀態",
-      "keywords": ["window", "active", "foreground", "啟用視窗", "激活視窗"],
-      "fields": {
-        "window": {
-          "display_name": "目標視窗",
-          "description": "視窗控制代碼或標題比對表示式",
-          "presets": {
-            "Foreground": "當前前景視窗",
-            "Desktop": "桌面"
-          }
-        }
-      }
+      "display_name": "啟用視窗 (ActiveWindow)",
+      "description": "將指定視窗帶到前景並設為當前活動啟用狀態"
     },
     "CloseWindow": {
-      "display_name": "關閉視窗",
-      "description": "向指定視窗傳送關閉訊號 (WM_CLOSE)",
-      "keywords": ["window", "close", "destroy", "關閉視窗"],
-      "fields": {
-        "window": {
-          "display_name": "目標視窗",
-          "description": "視窗控制代碼或標題比對表示式"
-        }
-      }
+      "display_name": "關閉視窗 (CloseWindow)",
+      "description": "向指定視窗發送關閉訊號 (WM_CLOSE)"
     },
     "EnumWindows": {
-      "display_name": "列舉所有視窗",
-      "description": "遍歷系統全部可見或最上層視窗並返回視窗清單",
-      "keywords": ["window", "enum", "list", "列舉視窗"],
-      "fields": {
-        "filter": {
-          "display_name": "篩選規則",
-          "description": "視窗篩選條件",
-          "presets": {
-            "all": "全部視窗",
-            "visible": "僅可見視窗",
-            "top_level": "最上層視窗"
-          }
-        }
-      }
+      "display_name": "列舉所有視窗 (EnumWindows)",
+      "description": "遍歷系統全部可見或頂層視窗並傳回視窗清單"
     },
     "FindWindow": {
-      "display_name": "尋找視窗",
-      "description": "根據類別名稱、標題關鍵字或處理程序名稱精確/模糊尋找視窗控制代碼",
-      "keywords": ["window", "find", "search", "尋找視窗"],
-      "fields": {
-        "title": {
-          "display_name": "視窗標題",
-          "description": "視窗標題比對文字"
-        },
-        "class_name": {
-          "display_name": "視窗類別名稱",
-          "description": "視窗 Class Name"
-        }
-      }
+      "display_name": "搜尋視窗 (FindWindow)",
+      "description": "根據類別名稱、標題關鍵字或行程名稱精確/模糊搜尋視窗控制代碼"
+    },
+    "FlashWindow": {
+      "display_name": "閃爍視窗提示 (FlashWindow)",
+      "description": "讓指定視窗在工作列上高亮閃爍，提醒使用者注意"
+    },
+    "GetWindowCaption": {
+      "display_name": "取得視窗標題 (GetWindowCaption)",
+      "description": "讀取指定視窗的當前標題列文字內容"
+    },
+    "SetWindowCaption": {
+      "display_name": "設定視窗標題 (SetWindowCaption)",
+      "description": "將指定視窗的標題列更新修改為新文字內容"
+    },
+    "GetWindowInfo": {
+      "display_name": "取得視窗綜合資訊 (GetWindowInfo)",
+      "description": "一次性讀取並傳回視窗的控制代碼、標題、類別名稱、PID、行程名稱、座標寬高及狀態屬性"
+    },
+    "GetWindowPoint": {
+      "display_name": "取得視窗相對座標 (GetWindowPoint)",
+      "description": "根據視窗錨點（如 TopLeft、Center）及像素偏移量計算相對視窗的螢幕物理座標"
+    },
+    "IsWindowExists": {
+      "display_name": "判斷視窗是否存在 (IsWindowExists)",
+      "description": "輕量級判斷指定視窗當前是否存在於系統中，快速傳回 true/false"
+    },
+    "IsWindowVisible": {
+      "display_name": "判斷視窗是否可見 (IsWindowVisible)",
+      "description": "輕量級判斷指定視窗在作業系統中當前是否處於顯示/可見狀態"
+    },
+    "MessageBox": {
+      "display_name": "彈出提示訊息方塊 (MessageBox)",
+      "description": "在螢幕上彈出一個提示對話方塊，顯示自訂訊息內容"
+    },
+    "NotifyMessage": {
+      "display_name": "訊息通知 (NotifyMessage)",
+      "description": "在作業系統桌面彈出原生 Toast 氣泡訊息通知"
+    },
+    "SetWindowGeometry": {
+      "display_name": "設定視窗位置與尺寸 (SetWindowGeometry)",
+      "description": "主推薦位置尺寸設定原子：一次性設定視窗位置 (X, Y) 與尺寸 (Width, Height)，傳入 -1 表示保持對應維度不變"
+    },
+    "SetWindowState": {
+      "display_name": "設定視窗形態與顯隱 (SetWindowState)",
+      "description": "統一控制指定視窗的顯隱與形態（顯示 Show、隱藏 Hide、最大化 Maximize、最小化 Minimize、還原 Restore）"
+    },
+    "SetWindowZOrder": {
+      "display_name": "設定視窗層級 (SetWindowZOrder)",
+      "description": "獨立控制指定視窗的 Z-Order 層級關係（置頂 TopMost、取消置頂 NoTopMost、移到頂層 Top、移到底層 Bottom）"
+    },
+    "WaitWindow": {
+      "display_name": "等待視窗狀態 (WaitWindow)",
+      "description": "等待目標視窗出現 (Appears)、消失 (Disappears) 或被啟用為前景 (Active)"
+    },
+    "WindowAncestor": {
+      "display_name": "取得父級/祖先視窗 (WindowAncestor)",
+      "description": "取得當前子視窗所屬的上層父視窗或主程式視窗"
     }
   }
 }

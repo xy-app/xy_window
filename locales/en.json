@@ -1,64 +1,79 @@
 {
-  "name": "Native Window Management Suite",
-  "description": "Provides Win32 and cross-platform native window enumeration, handle lookup, activation, closing, show/hide, positioning, resizing, title modification, and modal control.",
+  "name": "Window Management & Control Suite",
+  "description": "Native Win32 and cross-platform window enumeration, handle search, activation, close, visibility check, positioning, resizing, caption modification, and toast notifications",
   "group": "Window",
   "actions": {
     "ActiveWindow": {
-      "display_name": "Active Window",
-      "description": "Bring the specified window to the foreground and make it active",
-      "keywords": ["window", "active", "foreground", "focus"],
-      "fields": {
-        "window": {
-          "display_name": "Target Window",
-          "description": "Window handle or title match expression",
-          "presets": {
-            "Foreground": "Foreground",
-            "Desktop": "Desktop"
-          }
-        }
-      }
+      "display_name": "Activate Window (ActiveWindow)",
+      "description": "Bring target window to foreground and set as active state"
     },
     "CloseWindow": {
-      "display_name": "Close Window",
-      "description": "Send a close signal (WM_CLOSE) to the specified window",
-      "keywords": ["window", "close", "destroy"],
-      "fields": {
-        "window": {
-          "display_name": "Target Window",
-          "description": "Window handle or title match expression"
-        }
-      }
+      "display_name": "Close Window (CloseWindow)",
+      "description": "Send close signal (WM_CLOSE) to target window with timeout and force termination options"
     },
     "EnumWindows": {
-      "display_name": "Enumerate Windows",
-      "description": "Enumerate all visible or top-level windows across the system and return window list",
-      "keywords": ["window", "enum", "list"],
-      "fields": {
-        "filter": {
-          "display_name": "Filter Rule",
-          "description": "Window filter criteria",
-          "presets": {
-            "all": "All",
-            "visible": "Visible",
-            "top_level": "Top Level"
-          }
-        }
-      }
+      "display_name": "Enumerate All Windows (EnumWindows)",
+      "description": "Traverse system visible/top-level windows and return handle list"
     },
     "FindWindow": {
-      "display_name": "Find Window",
-      "description": "Find window handle by class name, title keyword, or process name",
-      "keywords": ["window", "find", "search"],
-      "fields": {
-        "title": {
-          "display_name": "Window Title",
-          "description": "Window title matching string"
-        },
-        "class_name": {
-          "display_name": "Class Name",
-          "description": "Window class name"
-        }
-      }
+      "display_name": "Find Window (FindWindow)",
+      "description": "Search window handle by title, class name, or process name"
+    },
+    "FlashWindow": {
+      "display_name": "Flash Window (FlashWindow)",
+      "description": "Flash window in taskbar or highlight border to attract user attention"
+    },
+    "GetWindowCaption": {
+      "display_name": "Get Window Title (GetWindowCaption)",
+      "description": "Retrieve current title bar text of specified target window"
+    },
+    "SetWindowCaption": {
+      "display_name": "Set Window Title (SetWindowCaption)",
+      "description": "Update and set specified target window title bar to new text"
+    },
+    "GetWindowInfo": {
+      "display_name": "Get Window Information (GetWindowInfo)",
+      "description": "Query and return complete window metadata including handle, title, class, PID, process name, bounds, and state"
+    },
+    "GetWindowPoint": {
+      "display_name": "Get Window Relative Point (GetWindowPoint)",
+      "description": "Calculate absolute screen pixel coordinates relative to window anchor orientation and offset"
+    },
+    "IsWindowExists": {
+      "display_name": "Check If Window Exists (IsWindowExists)",
+      "description": "Lightweight check if specified window exists in the operating system"
+    },
+    "IsWindowVisible": {
+      "display_name": "Check If Window Is Visible (IsWindowVisible)",
+      "description": "Lightweight check if specified window is currently visible on screen"
+    },
+    "MessageBox": {
+      "display_name": "Show Message Box (MessageBox)",
+      "description": "Display a desktop dialog box with custom message text and buttons"
+    },
+    "NotifyMessage": {
+      "display_name": "Desktop Notification (NotifyMessage)",
+      "description": "Pop up native desktop toast notification bubble"
+    },
+    "SetWindowGeometry": {
+      "display_name": "Set Window Geometry (SetWindowGeometry)",
+      "description": "Atomically update window location (X, Y) and size (Width, Height) in a single system call (-1 keeps dimension)"
+    },
+    "SetWindowState": {
+      "display_name": "Set Window State (SetWindowState)",
+      "description": "Control window show, hide, maximize, minimize, or restore state"
+    },
+    "SetWindowZOrder": {
+      "display_name": "Set Window Z-Order (SetWindowZOrder)",
+      "description": "Pin window to TopMost display level, remove pin state, or adjust Z-order"
+    },
+    "WaitWindow": {
+      "display_name": "Wait Window State (WaitWindow)",
+      "description": "Wait until target window appears, disappears, or becomes active foreground"
+    },
+    "WindowAncestor": {
+      "display_name": "Get Parent/Ancestor Window (WindowAncestor)",
+      "description": "Retrieve parent or root owner window for target child window"
     }
   }
 }

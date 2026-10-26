@@ -1,21 +1,49 @@
-# 枚举窗口 (EnumWindows)
+# 枚举所有窗口 (EnumWindows)
 
-枚举操作系统中的所有顶层窗口或指定父窗口的子窗口列表，支持可见性筛选（检索全部窗口或仅可见窗口），并支持按 Z-Order、XY 或 YX 坐标规则排序过滤。
+获取电脑当前打开的所有窗口列表与标题信息，支持父窗口限定、标题/类名过滤、可见性筛选及多种空间与层叠排序方式。
 
 ## 平台与权限
+
 * **支持平台**: `Windows`
-* **权限要求**: 普通用户权限
+* **权限要求**: 普通用户权限（无需管理员提权）
 
 ## 运行参数
 
-| 参数名 | 类型 | 默认值 | 预设选项 | 说明 |
-| :--- | :--- | :--- | :--- | :--- |
-| `parent_window` | `Wnd` / `MixedType` | `""` | `Desktop`, `Foreground` | 父窗口对象；留空时枚举所有顶层窗口 |
-| `filter_by_title` | `String` / `MixedType` | `""` | 自由输入 | 根据窗口标题过滤（支持通配符），留空不进行标题过滤 |
-| `filter_by_name` | `String` / `MixedType` | `""` | 自由输入 | 根据窗口类名过滤（支持通配符），留空不进行类名过滤 |
-| `visible` | `String` / `MixedType` | `"All (全部窗口)"` | `All (全部窗口)`, `Visible (仅可见窗口)` | 可见性筛选条件：默认检索全部（含隐藏窗口）；选择 `Visible` 仅检索可见窗口 |
-| `sort_direction` | `String` / `MixedType` | `"Z"` | `Z`, `XY`, `YX` | 排序规则：`Z` (Z-Order顺序), `XY` (先横后纵), `YX` (先纵后横) |
+* **父窗口 (`parent_window`)**
+  * 类型: `Wnd` / `string`
+  * 默认值: `""`
+  * 描述: 父窗口对象或句柄。留空时枚举所有顶层窗口。常用预设：`Desktop`, `Foreground`。
+* **标题过滤规则 (`filter_by_title`)**
+  * 类型: `string`
+  * 默认值: `""`
+  * 描述: 根据窗口标题过滤（支持通配符 `*`），留空时不进行标题过滤。
+* **进程/类名过滤 (`filter_by_name`)**
+  * 类型: `string`
+  * 默认值: `""`
+  * 描述: 根据窗口类名或进程名过滤（支持通配符 `*`），留空时不进行类名过滤。
+* **可见性筛选 (`visible`)**
+  * 类型: `string`
+  * 默认值: `"all"`
+  * 描述: 窗口可见性筛选条件：`all` (全部窗口), `visible` (仅可见窗口), `hidden` (仅隐藏窗口)。
+* **排序规则 (`sort_direction`)**
+  * 类型: `string`
+  * 默认值: `"Z"`
+  * 描述: 窗口排序规则。常用预设：`Z` (Z-Order 深度顺序), `XY` (先横向后纵向), `YX` (先纵向后横向)。
 
 ## 输出
 
-* **窗口列表 (`Wnds` / `Tuple` of `Wnd`)**: 匹配筛选并排序后的窗口对象集合
+* 类型: `Array` (`Tuple` of `Wnd`)
+* 描述: 满足过滤与排序条件的窗口对象数组列表，可用于循环遍历各窗口句柄。
+
+## 使用示例
+
+```json
+{
+    "tag": "EnumWindows",
+    "parent_window": "Desktop",
+    "filter_by_title": "*记事本*",
+    "filter_by_name": "",
+    "visible": "visible",
+    "sort_direction": "Z"
+}
+```

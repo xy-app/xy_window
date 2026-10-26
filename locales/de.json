@@ -1,67 +1,79 @@
 {
-  "name": "Native Window Management Suite",
-  "description": "Bietet Win32- und plattformübergreifende Fensterverwaltung, Handle-Suche, Aktivierung, Schließen, Ein-/Ausblenden und Größenanpassung.",
-  "group": "Fenstersteuerung",
+  "name": "Suite für Fensterverwaltung und Steuerung",
+  "description": "Native Win32- und plattformübergreifende Fensteraufzählung, Handlesuche, Aktivierung, Schließen, Sichtbarkeit, Positionierung, Größenänderung, Titeländerung und Benachrichtigungen",
+  "group": "Fenster",
   "actions": {
     "ActiveWindow": {
-      "display_name": "Fenster aktivieren",
-      "description": "Bringt das angegebene Fenster in den Vordergrund und aktiviert es"
+      "display_name": "Fenster aktivieren (ActiveWindow)",
+      "description": "Bringt das Zielfenster in den Vordergrund und aktiviert es"
     },
     "CloseWindow": {
-      "display_name": "Fenster schließen",
-      "description": "Sendet ein Schließsignal (WM_CLOSE) an das angegebene Fenster"
+      "display_name": "Fenster schließen (CloseWindow)",
+      "description": "Sendet ein Schließsignal (WM_CLOSE) an das Zielfenster"
     },
     "EnumWindows": {
-      "display_name": "Fenster auflisten",
-      "description": "Listet alle sichtbaren Fenster auf und gibt eine Liste zurück"
+      "display_name": "Alle Fenster aufzählen (EnumWindows)",
+      "description": "Durchläuft alle sichtbaren Hauptfenster des Systems"
     },
     "FindWindow": {
-      "display_name": "Fenster suchen",
-      "description": "Sucht ein Fenster nach Titel oder Klassenname"
+      "display_name": "Fenster suchen (FindWindow)",
+      "description": "Sucht ein Fenster-Handle nach Titel, Klasse oder Prozessname"
     },
     "FlashWindow": {
-      "display_name": "Fenster blinken lassen",
-      "description": "Lässt die Titelleiste oder das Taskleistensymbol blinken"
+      "display_name": "Fenster blinken lassen (FlashWindow)",
+      "description": "Lässt das Fenster in der Taskleiste blinken"
+    },
+    "GetWindowCaption": {
+      "display_name": "Fenstertitel abrufen (GetWindowCaption)",
+      "description": "Liest den aktuellen Titeltext des Fensters aus"
+    },
+    "SetWindowCaption": {
+      "display_name": "Fenstertitel festlegen (SetWindowCaption)",
+      "description": "Ändert den Titeltext des Zielfensters"
+    },
+    "GetWindowInfo": {
+      "display_name": "Fensterinformationen abrufen (GetWindowInfo)",
+      "description": "Liest vollständige Metadaten des Fensters aus"
+    },
+    "GetWindowPoint": {
+      "display_name": "Relative Fensterkoordinaten berechnen (GetWindowPoint)",
+      "description": "Berechnet Bildschirmkoordinaten basierend auf Anker und Offset"
+    },
+    "IsWindowExists": {
+      "display_name": "Prüfen ob Fenster existiert (IsWindowExists)",
+      "description": "Schnelle Prüfung ob das Fenster im System existiert"
+    },
+    "IsWindowVisible": {
+      "display_name": "Prüfen ob Fenster sichtbar ist (IsWindowVisible)",
+      "description": "Schnelle Prüfung ob das Fenster aktuell sichtbar ist"
     },
     "MessageBox": {
-      "display_name": "Nachrichtenfeld (MessageBox)",
-      "description": "Zeigt ein modales Dialogfeld an"
+      "display_name": "Meldungsfenster anzeigen (MessageBox)",
+      "description": "Zeigt ein Dialogfenster mit benutzerdefiniertem Text an"
     },
-    "PositionWindow": {
-      "display_name": "Fenster positionieren",
-      "description": "Verschiebt das Fenster an die angegebenen Koordinaten"
+    "NotifyMessage": {
+      "display_name": "Benachrichtigung (NotifyMessage)",
+      "description": "Zeigt eine Toast-Benachrichtigung auf dem Desktop an"
     },
-    "SpecialWindow": {
-      "display_name": "Spezialfenster",
-      "description": "Erweiterte Fensterfunktionen und Statussteuerung"
+    "SetWindowGeometry": {
+      "display_name": "Fensterposition und -größe festlegen (SetWindowGeometry)",
+      "description": "Ändert Position (X, Y) und Größe (Breite, Höhe) atomar (-1 behält Wert)"
+    },
+    "SetWindowState": {
+      "display_name": "Fensterstatus festlegen (SetWindowState)",
+      "description": "Steuert Einblenden, Ausblenden, Maximieren, Minimieren"
+    },
+    "SetWindowZOrder": {
+      "display_name": "Fenster-Ebene festlegen (SetWindowZOrder)",
+      "description": "Steuert Z-Order und Immer-im-Vordergrund-Status"
+    },
+    "WaitWindow": {
+      "display_name": "Auf Fensterstatus warten (WaitWindow)",
+      "description": "Wartet bis das Fenster erscheint, verschwindet oder aktiv wird"
     },
     "WindowAncestor": {
-      "display_name": "Übergeordnetes Fenster",
-      "description": "Ermittelt das übergeordnete Fenster"
-    },
-    "WindowCaption": {
-      "display_name": "Fenstertitel",
-      "description": "Liest oder ändert den Fenstertitel"
-    },
-    "WindowPoint": {
-      "display_name": "Fensterpunkt",
-      "description": "Ermittelt das Fenster an einer bestimmten Bildschirmkoordinate"
-    },
-    "WindowSize": {
-      "display_name": "Fenstergröße",
-      "description": "Ändert die Fensterbreite und -höhe"
-    },
-    "WindowVisible": {
-      "display_name": "Fenstersichtbarkeit",
-      "description": "Blendet das Fenster ein oder aus"
-    },
-    "WindowXy": {
-      "display_name": "Fensterkoordinaten",
-      "description": "Ruft die aktuellen Koordinaten und Abmessungen ab"
-    },
-    "WinRun": {
-      "display_name": "Programm ausführen",
-      "description": "Startet ein externes Programm oder öffnet eine Datei"
+      "display_name": "Übergeordnetes Fenster abrufen (WindowAncestor)",
+      "description": "Ermittelt das übergeordnete Fenster des Zielfensters"
     }
   }
 }

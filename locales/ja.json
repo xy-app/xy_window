@@ -1,64 +1,79 @@
 {
-  "name": "ウィンドウ管理・列挙制御スイート",
-  "description": "Win32およびクロスプラットフォームのネイティブウィンドウ列挙、ハンドル検索、アクティブ化、閉じる、表示/非表示、位置座標、サイズ調整、タイトル変更などを提供します",
-  "group": "ウィンドウ操作",
+  "name": "公式ウィンドウ管理と列挙制御スイート",
+  "description": "Win32およびクロスプラットフォームのネイティブウィンドウ列挙、ハンドル検索、アクティブ化、終了、表示/非表示、座標位置指定、サイズ調整、タイトル変更、メッセージ通知を提供",
+  "group": "ウィンドウ",
   "actions": {
     "ActiveWindow": {
-      "display_name": "ウィンドウをアクティブ化",
-      "description": "指定したウィンドウを最前面に移動し、アクティブ状態にします",
-      "keywords": ["window", "active", "foreground", "アクティブ"],
-      "fields": {
-        "window": {
-          "display_name": "対象ウィンドウ",
-          "description": "ウィンドウハンドルまたはタイトル一致式",
-          "presets": {
-            "Foreground": "アクティブウィンドウ",
-            "Desktop": "デスクトップ"
-          }
-        }
-      }
+      "display_name": "ウィンドウをアクティブ化 (ActiveWindow)",
+      "description": "指定したウィンドウを最前面に移動し、アクティブ状態に設定"
     },
     "CloseWindow": {
-      "display_name": "ウィンドウを閉じる",
-      "description": "指定したウィンドウに終了シグナル (WM_CLOSE) を送信します",
-      "keywords": ["window", "close", "destroy", "閉じる"],
-      "fields": {
-        "window": {
-          "display_name": "対象ウィンドウ",
-          "description": "ウィンドウハンドルまたはタイトル一致式"
-        }
-      }
+      "display_name": "ウィンドウを閉じる (CloseWindow)",
+      "description": "指定したウィンドウに終了シグナル (WM_CLOSE) を送信"
     },
     "EnumWindows": {
-      "display_name": "ウィンドウを列挙",
-      "description": "システム上の表示中またはトップレベルウィンドウをすべて検索し一覧を返します",
-      "keywords": ["window", "enum", "list", "列挙"],
-      "fields": {
-        "filter": {
-          "display_name": "フィルタ条件",
-          "description": "ウィンドウフィルタ条件",
-          "presets": {
-            "all": "すべてのウィンドウ",
-            "visible": "表示ウィンドウのみ",
-            "top_level": "トップレベルウィンドウ"
-          }
-        }
-      }
+      "display_name": "全ウィンドウを列挙 (EnumWindows)",
+      "description": "システム上の表示可能なすべてのトップレベルウィンドウを走査し、ハンドル一覧を取得"
     },
     "FindWindow": {
-      "display_name": "ウィンドウを検索",
-      "description": "クラス名、タイトルキーワード、またはプロセス名に基づいてウィンドウハンドルを検索します",
-      "keywords": ["window", "find", "search", "検索"],
-      "fields": {
-        "title": {
-          "display_name": "ウィンドウタイトル",
-          "description": "ウィンドウタイトル検索文字列"
-        },
-        "class_name": {
-          "display_name": "クラス名",
-          "description": "ウィンドウクラス名"
-        }
-      }
+      "display_name": "ウィンドウを検索 (FindWindow)",
+      "description": "クラス名、タイトルキーワード、またはプロセス名からウィンドウハンドルを検索"
+    },
+    "FlashWindow": {
+      "display_name": "ウィンドウを点滅強調 (FlashWindow)",
+      "description": "タスクバーアイコンを点滅させてユーザーの注意を引く"
+    },
+    "GetWindowCaption": {
+      "display_name": "ウィンドウタイトルを取得 (GetWindowCaption)",
+      "description": "指定したウィンドウの現在のタイトルバーテキストを取得"
+    },
+    "SetWindowCaption": {
+      "display_name": "ウィンドウタイトルを設定 (SetWindowCaption)",
+      "description": "指定したウィンドウのタイトルバーを新しいテキストに更新"
+    },
+    "GetWindowInfo": {
+      "display_name": "ウィンドウ詳細情報を取得 (GetWindowInfo)",
+      "description": "ハンドル、タイトル、クラス名、PID、プロセス名、境界座標、状態を一括取得"
+    },
+    "GetWindowPoint": {
+      "display_name": "ウィンドウ相対座標を取得 (GetWindowPoint)",
+      "description": "アンカー（TopLeft、Centerなど）とオフセットから絶対画面座標を計算"
+    },
+    "IsWindowExists": {
+      "display_name": "ウィンドウの存在確認 (IsWindowExists)",
+      "description": "指定したウィンドウが現在存在するか判定（true/falseを返す）"
+    },
+    "IsWindowVisible": {
+      "display_name": "ウィンドウの可視性確認 (IsWindowVisible)",
+      "description": "指定したウィンドウが現在画面上に表示されているか確認"
+    },
+    "MessageBox": {
+      "display_name": "メッセージボックス表示 (MessageBox)",
+      "description": "画面にカスタムメッセージダイアログを表示"
+    },
+    "NotifyMessage": {
+      "display_name": "デスクトップ通知 (NotifyMessage)",
+      "description": "OSのネイティブトーストバブル通知を表示"
+    },
+    "SetWindowGeometry": {
+      "display_name": "位置とサイズを一括設定 (SetWindowGeometry)",
+      "description": "ウィンドウの位置(X, Y)とサイズ(Width, Height)を一括設定 (-1で維持)"
+    },
+    "SetWindowState": {
+      "display_name": "ウィンドウ状態・表示設定 (SetWindowState)",
+      "description": "表示・非表示・最大化・最小化・元に戻すを一括制御"
+    },
+    "SetWindowZOrder": {
+      "display_name": "ウィンドウ重なり順を設定 (SetWindowZOrder)",
+      "description": "Z-Order重なり順（最前面固定/解除など）を個別に制御"
+    },
+    "WaitWindow": {
+      "display_name": "ウィンドウ状態待機 (WaitWindow)",
+      "description": "指定ウィンドウが出現・消失・アクティブ化されるまで待機"
+    },
+    "WindowAncestor": {
+      "display_name": "親/祖先ウィンドウを取得 (WindowAncestor)",
+      "description": "子ウィンドウの親ウィンドウまたはルート所有者ウィンドウを取得"
     }
   }
 }

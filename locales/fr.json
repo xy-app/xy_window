@@ -1,67 +1,79 @@
 {
-  "name": "Native Window Management Suite",
-  "description": "Fournit l'énumération des fenêtres Win32 et multiplateformes, la recherche de poignées, l'activation, la fermeture, le masquage et le redimensionnement.",
-  "group": "Gestion des fenêtres",
+  "name": "Suite de gestion et contrôle des fenêtres",
+  "description": "Énumération de fenêtres natives Win32 et multiplateformes, recherche de handles, activation, fermeture, visibilité, positionnement, redimensionnement et notifications",
+  "group": "Fenêtre",
   "actions": {
     "ActiveWindow": {
-      "display_name": "Activer la fenêtre",
-      "description": "Place la fenêtre spécifiée au premier plan et la rend active"
+      "display_name": "Activer la fenêtre (ActiveWindow)",
+      "description": "Affiche la fenêtre cible au premier plan et la rend active"
     },
     "CloseWindow": {
-      "display_name": "Fermer la fenêtre",
-      "description": "Envoie un signal de fermeture (WM_CLOSE) à la fenêtre spécifiée"
+      "display_name": "Fermer la fenêtre (CloseWindow)",
+      "description": "Envoie un signal de fermeture (WM_CLOSE) à la fenêtre cible"
     },
     "EnumWindows": {
-      "display_name": "Énumérer les fenêtres",
-      "description": "Énumère toutes les fenêtres visibles et renvoie la liste"
+      "display_name": "Énumérer toutes les fenêtres (EnumWindows)",
+      "description": "Parcourt toutes les fenêtres principales du système"
     },
     "FindWindow": {
-      "display_name": "Rechercher une fenêtre",
-      "description": "Trouve une fenêtre par titre ou nom de classe"
+      "display_name": "Rechercher une fenêtre (FindWindow)",
+      "description": "Recherche un handle de fenêtre par titre, classe ou nom de processus"
     },
     "FlashWindow": {
-      "display_name": "Faire clignoter la fenêtre",
-      "description": "Fait clignoter la barre de titre ou l'icône de la barre des tâches"
+      "display_name": "Faire clignoter la fenêtre (FlashWindow)",
+      "description": "Fait clignoter la fenêtre dans la barre des tâches"
+    },
+    "GetWindowCaption": {
+      "display_name": "Obtenir le titre de la fenêtre (GetWindowCaption)",
+      "description": "Lit le titre actuel de la fenêtre spécifiée"
+    },
+    "SetWindowCaption": {
+      "display_name": "Définir le titre de la fenêtre (SetWindowCaption)",
+      "description": "Modifie le titre de la fenêtre spécifiée"
+    },
+    "GetWindowInfo": {
+      "display_name": "Obtenir les informations de la fenêtre (GetWindowInfo)",
+      "description": "Lit l'ensemble des métadonnées de la fenêtre"
+    },
+    "GetWindowPoint": {
+      "display_name": "Calculer les coordonnées de la fenêtre (GetWindowPoint)",
+      "description": "Calcule les coordonnées écran relatives au point d'ancrage"
+    },
+    "IsWindowExists": {
+      "display_name": "Vérifier si la fenêtre existe (IsWindowExists)",
+      "description": "Vérifie rapidement si la fenêtre existe dans le système"
+    },
+    "IsWindowVisible": {
+      "display_name": "Vérifier la visibilité de la fenêtre (IsWindowVisible)",
+      "description": "Vérifie si la fenêtre est actuellement visible à l'écran"
     },
     "MessageBox": {
-      "display_name": "Boîte de message (MessageBox)",
-      "description": "Affiche une boîte de dialogue modale"
+      "display_name": "Afficher une boîte de message (MessageBox)",
+      "description": "Affiche une boîte de dialogue avec un texte personnalisé"
     },
-    "PositionWindow": {
-      "display_name": "Positionner la fenêtre",
-      "description": "Déplace la fenêtre aux coordonnées spécifiées"
+    "NotifyMessage": {
+      "display_name": "Notification (NotifyMessage)",
+      "description": "Affiche une notification toast native sur le bureau"
     },
-    "SpecialWindow": {
-      "display_name": "Fenêtre spéciale",
-      "description": "Fonctions avancées de contrôle des fenêtres"
+    "SetWindowGeometry": {
+      "display_name": "Définir la géométrie de la fenêtre (SetWindowGeometry)",
+      "description": "Modifie la position (X, Y) et la taille (Largeur, Hauteur) (-1 conserve la valeur)"
+    },
+    "SetWindowState": {
+      "display_name": "Définir l'état de la fenêtre (SetWindowState)",
+      "description": "Gère l'affichage, le masquage, la maximisation et la réduction"
+    },
+    "SetWindowZOrder": {
+      "display_name": "Définir l'ordre Z de la fenêtre (SetWindowZOrder)",
+      "description": "Gère le niveau d'affichage et l'épinglage au premier plan"
+    },
+    "WaitWindow": {
+      "display_name": "Attendre l'état de la fenêtre (WaitWindow)",
+      "description": "Attend que la fenêtre apparaisse, disparaisse ou devienne active"
     },
     "WindowAncestor": {
-      "display_name": "Fenêtre parente",
-      "description": "Obtient la fenêtre ancêtre ou parente"
-    },
-    "WindowCaption": {
-      "display_name": "Titre de la fenêtre",
-      "description": "Lit ou modifie le titre de la fenêtre"
-    },
-    "WindowPoint": {
-      "display_name": "Point de fenêtre",
-      "description": "Obtient la fenêtre aux coordonnées spécifiées"
-    },
-    "WindowSize": {
-      "display_name": "Taille de la fenêtre",
-      "description": "Modifie la largeur et la hauteur de la fenêtre"
-    },
-    "WindowVisible": {
-      "display_name": "Visibilité de la fenêtre",
-      "description": "Affiche ou masque la fenêtre"
-    },
-    "WindowXy": {
-      "display_name": "Coordonnées de la fenêtre",
-      "description": "Obtient les coordonnées et les dimensions actuelles de la fenêtre"
-    },
-    "WinRun": {
-      "display_name": "Exécuter programme",
-      "description": "Lance un programme externe ou ouvre un fichier"
+      "display_name": "Obtenir la fenêtre parente (WindowAncestor)",
+      "description": "Obtient la fenêtre parente de la fenêtre enfant cible"
     }
   }
 }

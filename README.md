@@ -1,9 +1,10 @@
 # 🪟 官方窗口管理与枚举控制套件 (Native Window Management Suite)
 
-[![Plugin Version](https://img.shields.io/badge/version-0.50.5-blue.svg)](manifest.json)
+[![Plugin Version](https://img.shields.io/badge/version-0.53.0-blue.svg)](manifest.json)
 [![Group](https://img.shields.io/badge/group-Window-blue.svg)](#)
 [![Platform](https://img.shields.io/badge/platform-All-green.svg)](#)
 [![License](https://img.shields.io/badge/license-Freeware-brightgreen.svg)](#)
+[![Discord](https://img.shields.io/discord/832082456727257118?label=Discord&logo=discord&logoColor=white&color=5865F2)](https://discord.gg/g5Fh3FtfGx)
 
 专为桌面自动化、RPA 流程编排与视窗交互设计的原生窗口控制与句柄管理套件。提供跨平台与 Win32 原生窗口全量枚举、标题/类名模糊与精确匹配查找、窗口前台激活与闪烁提醒、安全关闭、显示/隐藏/最大化/最小化控制、窗口绝对平移与尺寸缩放、Z-Order 层级置顶、父子祖先关系溯源、九宫格锚点坐标推导以及系统原生弹窗与 Win+R 运行调度。
 
@@ -13,10 +14,10 @@
 
 `xy_window` 提供了直接针对操作系统视窗对象与内核句柄的高性能管理能力：
 - **原生视窗探测与句柄查找**：支持遍历系统所有可见或顶层窗口（`EnumWindows`），支持通过窗口标题（模糊关键字）、类名（Class Name）高精度查找并返回窗口句柄 `Wnd`（`FindWindow`）。
-- **视窗焦点与用户交互**：支持将目标窗口置于前台激活（`ActiveWindow`）、任务栏高亮闪烁提醒（`FlashWindow`）、原生模态/非模态弹窗对话框（`MessageBox`），以及调起系统 Win+R 运行窗口（`WinRun`）。
+- **视窗焦点与用户交互**：支持将目标窗口置于前台激活（`ActiveWindow`）、任务栏高亮闪烁提醒（`FlashWindow`）、原生模态弹窗对话框（`MessageBox`），以及操作系统 Toast 桌面通知（`NotifyMessage`）。
 - **空间几何与排版调整**：支持平移窗口绝对坐标（`WindowXy`）、获取与设置宽高分辨率尺寸（`WindowSize`），以及基于窗口左上/右上/中心等 5 种锚点推导屏幕绝对坐标（`WindowPoint`）。
 - **层级管理与状态控制**：支持 Z-Order 置顶与取消置顶（`PositionWindow`，TopMost/NoTopMost/Top/Bottom）、显示/隐藏/最大化/最小化/还原状态切换（`WindowVisible`），以及安全发送 `WM_CLOSE` 信号关闭窗口（`CloseWindow`）。
-- **视窗树拓扑与特殊系统句柄**：支持快速获取桌面（Desktop）、任务栏（Shell_TrayWnd）等系统关键窗口（`SpecialWindow`），以及查询子控件的直接父级（Parent）、顶层根窗口（Root）与所属主窗口（`WindowAncestor`）。
+- **视窗树拓扑与句柄溯源**：支持通过 `FindWindow` 右键快捷获取系统桌面（Desktop）或前台活动窗口（Foreground），以及查询子控件的直接父级（Parent）、顶层根窗口（Root）与所属主窗口（`WindowAncestor`）。
 
 ---
 
@@ -34,7 +35,7 @@
 
 | 动作标识 (Tag) | 功能名称 | 描述 | 输出类型 |
 | :--- | :--- | :--- | :--- |
-| `FindWindow` | 查找窗口 | 根据类名或标题关键字精确/模糊查找并返回窗口句柄 | `Wnd` |
+| `FindWindow` | 查找窗口 | 根据类名或标题关键字精确/模糊查找并返回窗口句柄（支持右键快速选择 Desktop / Foreground） | `Wnd` |
 | `EnumWindows` | 枚举所有窗口 | 遍历系统所有窗口，支持 `visible`、`top_level` 与 `all` 规则过滤 | `Array` |
 | `ActiveWindow` | 激活窗口 | 将指定窗口激活并置于前台获得焦点 | `Wnd` |
 | `CloseWindow` | 关闭窗口 | 向指定窗口发送 `WM_CLOSE` 关闭信号 | `bool` |
@@ -45,23 +46,25 @@
 | `WindowCaption` | 获取/修改窗口标题 | 读取窗口当前标题，或将窗口重命名为新标题文本 | `string` |
 | `WindowPoint` | 根据锚点计算窗口坐标 | 依据窗口左上/中心等锚点基准推导绝对屏幕坐标点 | `string` |
 | `WindowAncestor` | 获取父级/祖先窗口 | 查询子窗口的直接父级 (Parent)、顶层根窗口 (Root) 或拥有者 | `Wnd` |
-| `SpecialWindow` | 获取特殊系统窗口 | 快速提取系统桌面 (Desktop)、任务栏托盘或活动前台句柄 | `Wnd` |
 | `FlashWindow` | 闪烁窗口提示 | 使指定窗口在任务栏或标题栏高亮闪烁提醒用户 | `bool` |
 | `MessageBox` | 弹出提示消息框 | 弹出系统原生消息提示框（支持 OK/Cancel/Yes/No） | `string` |
-| `WinRun` | 打开运行对话框 | 调起操作系统原生 Win+R 运行程序对话框 | `bool` |
+| `NotifyMessage` | 消息通知 | 在操作系统桌面弹出原生 Toast 气泡消息通知 | `bool` |
 
 ---
 
 ## 📚 详细参数说明与使用参考 (Detailed Reference)
 
-### 1. 窗口查找、枚举与特殊句柄 (Discovery & Windows Tree)
+### 1. 窗口查找、枚举与祖先溯源 (Discovery & Windows Tree)
 
 #### `FindWindow` - 查找窗口
 - **输入参数：**
-  | 参数名 (Field) | 显示名称 | 类型 | 默认值 | 说明 |
-  | :--- | :--- | :--- | :--- | :--- |
-  | `title` | 窗口标题 | `string` | `""` | 窗口标题文本（支持关键字模糊检索） |
-  | `class_name` | 窗口类名 | `string` | `""` | 窗口系统类名 Class Name（如 `Notepad`, `Chrome_WidgetWin_1`） |
+  | 参数名 (Field) | 显示名称 | 类型 | 默认值 | 预设选项 | 说明 |
+  | :--- | :--- | :--- | :--- | :--- | :--- |
+  | `caption` | 窗口标题 | `string` | `""` | `Desktop`, `Foreground` | 窗口标题文本（支持 `*` 通配符；右键菜单可选 `Desktop` 或 `Foreground` 快速获取桌面或前台焦点窗口） |
+  | `class_name` | 窗口类名 | `string` | `""` | - | 窗口系统类名 Class Name（如 `Notepad`, `Chrome_WidgetWin_1`） |
+  | `parent_window` | 父窗口 | `Wnd` | `""` | `Desktop`, `Foreground` | 父窗口句柄；留空默认桌面顶层 |
+  | `visible` | 可见性筛选 | `string` | `All` | `All`, `Visible` | 默认检索全部窗口，可选仅检索可见窗口 |
+  | `index` | 匹配索引 | `string` | `0` | `0`, `-1`, `1` | 匹配多实例时的索引 |
 - **输出类型：** `Wnd`（找到的窗口句柄对象）
 
 #### `EnumWindows` - 枚举所有窗口
@@ -70,13 +73,6 @@
   | :--- | :--- | :--- | :--- | :--- | :--- |
   | `filter` | 过滤规则 | `string` | `visible` | `all`, `visible`, `top_level` | `visible`: 仅可见窗口；`top_level`: 顶层顶级窗口；`all`: 全量窗口 |
 - **输出类型：** `Array`（窗口句柄与元数据列表）
-
-#### `SpecialWindow` - 获取特殊系统窗口
-- **输入参数：**
-  | 参数名 (Field) | 显示名称 | 类型 | 默认值 | 预设选项 | 说明 |
-  | :--- | :--- | :--- | :--- | :--- | :--- |
-  | `window` | 特殊窗口类型 | `string` | `Desktop` | `Desktop`, `Foreground`, `Shell_TrayWnd` | 提取桌面、前台焦点或任务栏托盘窗口 |
-- **输出类型：** `Wnd`
 
 #### `WindowAncestor` - 获取父级/祖先窗口
 - **输入参数：**
@@ -161,9 +157,9 @@
   | `buttons` | 按钮组合 | `string` | `ok` | `ok`, `ok_cancel`, `yes_no` | 对话框操作按钮式样 |
 - **输出类型：** `string`（用户点击的按钮结果，如 `ok`, `cancel`, `yes`, `no`）
 
-#### `FlashWindow` 与 `WinRun`
+#### `FlashWindow` 与 `NotifyMessage`
 - **`FlashWindow`**：使目标 `window` 在任务栏高亮闪烁 `count` 次（默认 `3` 次），用于关键节点提醒操作者。
-- **`WinRun`**：直接唤起 Windows 系统的标准 Win+R 运行对话框。
+- **`NotifyMessage`**：在操作系统桌面弹出原生 Toast 气泡通知，支持自定义标题、内容、图标、停留时间与提示音。
 
 ---
 

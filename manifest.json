@@ -1,16 +1,16 @@
 {
   "plugin_id": "xy_window",
-  "name": "窗口管理与弹窗控制 (Window Control)",
-  "version": "0.51.0",
+  "name": "桌面窗口管理 (Desktop Window Management)",
+  "version": "0.53.0",
   "group": "Window",
   "group_icon": "🪟",
-  "description": "提供软件窗口的查找、激活置顶、最小化最大化、调整位置尺寸、修改标题以及弹窗自动处理等功能",
+  "description": "提供桌面软件窗口的查找、激活置顶、显隐缩放、坐标与尺寸调整、标题获取及窗口树关系遍历等生命周期控制功能。",
   "actions": [
     {
       "tag": "ActiveWindow",
       "display_name": "激活窗口 (ActiveWindow)",
       "icon": "🪟",
-      "platforms": "All",
+      "platforms": "Windows",
       "description": "将指定的软件窗口置顶并激活到最前面",
       "keywords": [
         "window",
@@ -22,23 +22,41 @@
         {
           "name": "window",
           "display_name": "目标窗口",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Wnd",
+          "required": true,
+          "group": "窗口目标",
           "default_type": "string",
           "default_value": "",
           "presets": [
             "Foreground",
             "Desktop"
           ],
-          "description": "窗口句柄或标题匹配表达式"
+          "description": "窗口句柄或标题匹配表达式 (变量名: window)"
+        },
+        {
+          "name": "timeout_ms",
+          "display_name": "超时时间 (毫秒)",
+          "intrinsic_type": "Integer",
+          "group": "超时设置",
+          "is_advanced": true,
+          "default_type": "number",
+          "default_value": "5000",
+          "presets": [
+            "0",
+            "3000",
+            "5000",
+            "10000"
+          ],
+          "description": "查找或激活目标窗口的最长等待超时时间（毫秒，0 表示立即尝试） (变量名: timeout_ms)"
         }
       ],
-      "output_type": "Wnd"
+      "output_type": "wnd"
     },
     {
       "tag": "CloseWindow",
       "display_name": "关闭窗口 (CloseWindow)",
       "icon": "❌",
-      "platforms": "All",
+      "platforms": "Windows",
       "description": "向指定的软件或弹窗发送关闭指令",
       "keywords": [
         "window",
@@ -50,11 +68,46 @@
         {
           "name": "window",
           "display_name": "目标窗口",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Wnd",
+          "required": true,
+          "group": "窗口目标",
           "default_type": "string",
           "default_value": "",
-          "presets": [],
-          "description": "窗口句柄或标题匹配表达式"
+          "presets": [
+            "Foreground",
+            "Desktop"
+          ],
+          "description": "窗口句柄或标题匹配表达式 (变量名: window)"
+        },
+        {
+          "name": "timeout_ms",
+          "display_name": "超时时间 (毫秒)",
+          "intrinsic_type": "Integer",
+          "group": "超时与强制",
+          "is_advanced": true,
+          "default_type": "number",
+          "default_value": "5000",
+          "presets": [
+            "0",
+            "3000",
+            "5000",
+            "10000"
+          ],
+          "description": "等待目标窗口响应关闭指令的最长超时时间（毫秒，0 表示立即发送） (变量名: timeout_ms)"
+        },
+        {
+          "name": "force_kill",
+          "display_name": "超时强制关闭进程",
+          "intrinsic_type": "Boolean",
+          "group": "超时与强制",
+          "is_advanced": true,
+          "default_type": "boolean",
+          "default_value": "false",
+          "presets": [
+            "true",
+            "false"
+          ],
+          "description": "优雅关闭超时或目标窗口无响应时是否强制终止所属进程 (变量名: force_kill)"
         }
       ],
       "output_type": "bool"
@@ -63,7 +116,7 @@
       "tag": "EnumWindows",
       "display_name": "枚举所有窗口 (EnumWindows)",
       "icon": "📑",
-      "platforms": "All",
+      "platforms": "Windows",
       "description": "获取电脑当前打开的所有窗口列表与标题信息",
       "keywords": [
         "window",
@@ -75,49 +128,55 @@
         {
           "name": "parent_window",
           "display_name": "父窗口",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Wnd",
+          "group": "作用域",
           "default_type": "string",
           "default_value": "",
           "presets": [
             "Desktop",
             "Foreground"
           ],
-          "description": "父窗口对象或句柄，留空时枚举所有顶层窗口"
+          "description": "父窗口对象或句柄，留空时枚举所有顶层窗口 (变量名: parent_window)"
         },
         {
           "name": "filter_by_title",
           "display_name": "标题过滤规则",
-          "intrinsic_type": "string",
+          "intrinsic_type": "String",
+          "group": "过滤条件",
           "default_type": "string",
           "default_value": "",
           "presets": [],
-          "description": "根据窗口标题过滤（支持通配符），留空不进行过滤"
+          "description": "根据窗口标题过滤（支持通配符），留空不进行过滤 (变量名: filter_by_title)"
         },
         {
           "name": "filter_by_name",
           "display_name": "进程/类名过滤",
-          "intrinsic_type": "string",
+          "intrinsic_type": "String",
+          "group": "过滤条件",
           "default_type": "string",
           "default_value": "",
           "presets": [],
-          "description": "根据窗口类名或进程名过滤（支持通配符），留空不进行过滤"
+          "description": "根据窗口类名或进程名过滤（支持通配符），留空不进行过滤 (变量名: filter_by_name)"
         },
         {
           "name": "visible",
           "display_name": "可见性筛选",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Enum",
+          "group": "筛选与排序",
           "default_type": "string",
-          "default_value": "All (全部窗口)",
+          "default_value": "all",
           "presets": [
-            "All (全部窗口)",
-            "Visible (仅可见窗口)"
+            "all",
+            "visible",
+            "hidden"
           ],
-          "description": "窗口可见性筛选条件"
+          "description": "窗口可见性筛选条件: all (全部窗口), visible (仅可见窗口), hidden (仅隐藏窗口) (变量名: visible)"
         },
         {
           "name": "sort_direction",
           "display_name": "排序规则",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Enum",
+          "group": "筛选与排序",
           "default_type": "string",
           "default_value": "Z",
           "presets": [
@@ -125,16 +184,16 @@
             "XY",
             "YX"
           ],
-          "description": "排序规则：Z (Z-Order顺序), XY (先横后纵), YX (先纵后横)"
+          "description": "排序规则：Z (Z-Order顺序), XY (先横后纵), YX (先纵后横) (变量名: sort_direction)"
         }
       ],
-      "output_type": "Array"
+      "output_type": "array"
     },
     {
       "tag": "FindWindow",
       "display_name": "查找窗口 (FindWindow)",
       "icon": "🔍",
-      "platforms": "All",
+      "platforms": "Windows",
       "description": "根据窗口标题文字或软件名称查找目标窗口",
       "keywords": [
         "window",
@@ -144,69 +203,120 @@
       ],
       "fields": [
         {
-          "name": "parent_window",
-          "display_name": "父窗口",
-          "intrinsic_type": "string",
+          "name": "caption",
+          "display_name": "窗口标题",
+          "intrinsic_type": "String",
+          "required": true,
+          "group": "匹配条件",
           "default_type": "string",
           "default_value": "",
           "presets": [
             "Desktop",
             "Foreground"
           ],
-          "description": "父窗口对象或句柄，留空时在整个系统桌面顶层查找"
+          "description": "目标窗口标题（支持通配符模糊匹配，如 *记事本*；右键菜单可选择 Desktop 桌面或 Foreground 前台窗口） (变量名: caption)"
         },
         {
-          "name": "caption",
-          "display_name": "窗口标题",
-          "intrinsic_type": "string",
+          "name": "parent_window",
+          "display_name": "父窗口",
+          "intrinsic_type": "Wnd",
+          "group": "作用域",
           "default_type": "string",
           "default_value": "",
-          "presets": [],
-          "description": "目标窗口标题（支持通配符模糊匹配，如 *记事本*）"
+          "presets": [
+            "Desktop",
+            "Foreground"
+          ],
+          "description": "父窗口对象或句柄，留空时在整个系统桌面顶层查找 (变量名: parent_window)"
         },
         {
           "name": "window_class",
           "display_name": "窗口类名",
-          "intrinsic_type": "string",
+          "intrinsic_type": "String",
+          "group": "匹配条件",
           "default_type": "string",
           "default_value": "",
           "presets": [],
-          "description": "目标窗口类名（如 Notepad, Chrome_WidgetWin_1 等）"
+          "description": "目标窗口类名（如 Notepad, Chrome_WidgetWin_1 等） (变量名: window_class)"
+        },
+        {
+          "name": "process_name",
+          "display_name": "进程名称",
+          "intrinsic_type": "String",
+          "group": "匹配条件",
+          "default_type": "string",
+          "default_value": "",
+          "presets": [],
+          "description": "目标可执行进程名称（如 notepad.exe, msedge.exe 等） (变量名: process_name)"
+        },
+        {
+          "name": "match_mode",
+          "display_name": "匹配模式",
+          "intrinsic_type": "Enum",
+          "group": "匹配模式",
+          "default_type": "string",
+          "default_value": "wildcard",
+          "presets": [
+            "wildcard",
+            "exact",
+            "contains",
+            "regex"
+          ],
+          "description": "匹配模式：wildcard (通配符匹配), exact (精确完全匹配), contains (文本包含匹配), regex (正则表达式) (变量名: match_mode)"
         },
         {
           "name": "visible",
           "display_name": "可见性筛选",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Enum",
+          "group": "筛选模式",
           "default_type": "string",
-          "default_value": "All (全部窗口)",
+          "default_value": "all",
           "presets": [
-            "All (全部窗口)",
-            "Visible (仅可见窗口)"
+            "all",
+            "visible",
+            "hidden"
           ],
-          "description": "可见性筛选条件：默认检索全部（含隐藏窗口）；选择 Visible 仅检索可见窗口"
+          "description": "可见性筛选条件: all (检索全部窗口), visible (仅可见窗口), hidden (仅隐藏窗口) (变量名: visible)"
         },
         {
           "name": "index",
           "display_name": "匹配索引",
-          "intrinsic_type": "string",
-          "default_type": "string",
+          "intrinsic_type": "Integer",
+          "group": "多实例检索",
+          "default_type": "number",
           "default_value": "0",
           "presets": [
             "0",
             "-1",
             "1"
           ],
-          "description": "匹配多实例时的索引：0 表示首个匹配，-1 表示最后一个"
+          "description": "匹配多实例时的索引：0 表示首个匹配，-1 表示最后一个 (变量名: index)"
+        },
+        {
+          "name": "timeout_ms",
+          "display_name": "超时时间 (毫秒)",
+          "intrinsic_type": "Integer",
+          "group": "超时设置",
+          "is_advanced": true,
+          "default_type": "number",
+          "default_value": "5000",
+          "presets": [
+            "0",
+            "3000",
+            "5000",
+            "10000"
+          ],
+          "description": "查找目标窗口的最长等待超时时间（毫秒，0 表示立即尝试） (变量名: timeout_ms)"
         }
       ],
-      "output_type": "Wnd"
+      "output_type": "wnd"
     },
     {
       "tag": "FlashWindow",
       "display_name": "闪烁窗口提示 (FlashWindow)",
       "icon": "✨",
-      "platforms": "All",
-      "description": "让指定窗口在任务栏上高亮闪烁，提醒用户注意",
+      "platforms": "Windows",
+      "description": "使指定窗口在任务栏上高亮闪烁提示 (仅 Windows 平台支持)",
       "keywords": [
         "window",
         "flash",
@@ -217,16 +327,22 @@
         {
           "name": "window",
           "display_name": "目标窗口",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Wnd",
+          "required": true,
+          "group": "窗口目标",
           "default_type": "string",
           "default_value": "",
-          "presets": [],
-          "description": "目标窗口对象、标题或窗口句柄"
+          "presets": [
+            "Foreground",
+            "Desktop"
+          ],
+          "description": "目标窗口对象、标题或窗口句柄 (变量名: window)"
         },
         {
           "name": "mode",
           "display_name": "闪烁模式",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Enum",
+          "group": "闪烁效果",
           "default_type": "string",
           "default_value": "Highlight",
           "presets": [
@@ -234,12 +350,13 @@
             "Taskbar",
             "Both"
           ],
-          "description": "闪烁模式：屏幕边框高亮、任务栏图标闪烁或二者同时执行"
+          "description": "闪烁模式：屏幕边框高亮、任务栏图标闪烁或二者同时执行 (变量名: mode)"
         },
         {
           "name": "color",
           "display_name": "边框高亮颜色",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Enum",
+          "group": "闪烁效果",
           "default_type": "string",
           "default_value": "#FF3B30",
           "presets": [
@@ -248,12 +365,13 @@
             "#007AFF",
             "#34C759"
           ],
-          "description": "高亮边框颜色 (Hex 格式颜色代码)"
+          "description": "高亮边框颜色 (Hex 格式颜色代码) (变量名: color)"
         },
         {
           "name": "count",
           "display_name": "闪烁次数",
-          "intrinsic_type": "number",
+          "intrinsic_type": "Integer",
+          "group": "时长与次数",
           "default_type": "number",
           "default_value": "3",
           "presets": [
@@ -261,12 +379,13 @@
             "3",
             "5"
           ],
-          "description": "闪烁或高亮脉冲次数"
+          "description": "闪烁或高亮脉冲次数 (变量名: count)"
         },
         {
           "name": "duration",
           "display_name": "持续时间 (ms)",
-          "intrinsic_type": "number",
+          "intrinsic_type": "Integer",
+          "group": "时长与次数",
           "default_type": "number",
           "default_value": "1000",
           "presets": [
@@ -274,7 +393,67 @@
             "1000",
             "2000"
           ],
-          "description": "高亮或闪烁的总持续时间（毫秒）"
+          "description": "高亮或闪烁的总持续时间（毫秒） (变量名: duration)"
+        }
+      ],
+      "output_type": "bool"
+    },
+    {
+      "tag": "IsWindowExists",
+      "display_name": "判断窗口是否存在 (IsWindowExists)",
+      "icon": "❓",
+      "platforms": "Windows",
+      "description": "轻量级判断指定窗口当前是否存在于系统中，快速返回 true 或 false，绝不抛出系统异常",
+      "keywords": [
+        "window",
+        "exists",
+        "is_window",
+        "判断窗口是否存在"
+      ],
+      "fields": [
+        {
+          "name": "window",
+          "display_name": "目标窗口",
+          "intrinsic_type": "Wnd",
+          "required": true,
+          "group": "窗口目标",
+          "default_type": "string",
+          "default_value": "",
+          "presets": [
+            "Foreground",
+            "Desktop"
+          ],
+          "description": "目标窗口对象或句柄 (变量名: window)"
+        }
+      ],
+      "output_type": "bool"
+    },
+    {
+      "tag": "IsWindowVisible",
+      "display_name": "判断窗口是否可见 (IsWindowVisible)",
+      "icon": "👁️",
+      "platforms": "Windows",
+      "description": "轻量级判断指定窗口在操作系统中当前是否处于显示/可见状态",
+      "keywords": [
+        "window",
+        "visible",
+        "is_visible",
+        "判断窗口是否可见"
+      ],
+      "fields": [
+        {
+          "name": "window",
+          "display_name": "目标窗口",
+          "intrinsic_type": "Wnd",
+          "required": true,
+          "group": "窗口目标",
+          "default_type": "string",
+          "default_value": "",
+          "presets": [
+            "Foreground",
+            "Desktop"
+          ],
+          "description": "目标窗口对象或句柄 (变量名: window)"
         }
       ],
       "output_type": "bool"
@@ -297,7 +476,9 @@
         {
           "name": "caption",
           "display_name": "弹窗标题",
-          "intrinsic_type": "string",
+          "intrinsic_type": "String",
+          "required": true,
+          "group": "弹窗内容",
           "default_type": "string",
           "default_value": "提示",
           "presets": [
@@ -305,21 +486,24 @@
             "警告",
             "确认"
           ],
-          "description": "对话框标题栏文本"
+          "description": "对话框标题栏文本 (变量名: caption)"
         },
         {
           "name": "text",
           "display_name": "提示内容",
-          "intrinsic_type": "string",
+          "intrinsic_type": "String",
+          "required": true,
+          "group": "弹窗内容",
           "default_type": "string",
           "default_value": "操作完成",
           "presets": [],
-          "description": "对话框消息正文内容，支持多行文本"
+          "description": "对话框消息正文内容，支持多行文本 (变量名: text)"
         },
         {
           "name": "button_type",
           "display_name": "按钮组合",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Enum",
+          "group": "按钮样式",
           "default_type": "string",
           "default_value": "OK",
           "presets": [
@@ -330,38 +514,45 @@
             "YESNO",
             "RETRYCANCEL"
           ],
-          "description": "按钮组合样式"
+          "description": "按钮组合样式 (变量名: button_type)"
         }
       ],
       "output_type": "number"
     },
     {
-      "tag": "PositionWindow",
-      "display_name": "调整窗口层级 (PositionWindow)",
+      "tag": "SetWindowZOrder",
+      "display_name": "设置窗口层级 (SetWindowZOrder)",
       "icon": "📐",
-      "platforms": "All",
-      "description": "将窗口固定在最顶层显示，或取消窗口置顶",
+      "platforms": "Windows",
+      "description": "独立控制指定窗口的 Z-Order 层级关系（置顶 TopMost、取消置顶 NoTopMost、移到顶层 Top、移到底层 Bottom，仅 Windows 支持）",
       "keywords": [
         "window",
-        "position",
-        "topmost",
         "zorder",
-        "置顶窗口"
+        "topmost",
+        "bottom",
+        "窗口层级"
       ],
       "fields": [
         {
           "name": "window",
           "display_name": "目标窗口",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Wnd",
+          "required": true,
+          "group": "窗口目标",
           "default_type": "string",
           "default_value": "",
-          "presets": [],
-          "description": "目标窗口句柄或特征"
+          "presets": [
+            "Foreground",
+            "Desktop"
+          ],
+          "description": "目标窗口句柄或特征 (变量名: window)"
         },
         {
           "name": "order",
           "display_name": "层级操作",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Enum",
+          "required": true,
+          "group": "层级控制",
           "default_type": "string",
           "default_value": "TopMost",
           "presets": [
@@ -370,62 +561,7 @@
             "Top",
             "Bottom"
           ],
-          "description": "Z-Order 操作"
-        }
-      ],
-      "output_type": "bool"
-    },
-    {
-      "tag": "SpecialWindow",
-      "display_name": "获取特殊系统窗口 (SpecialWindow)",
-      "icon": "⚙️",
-      "platforms": "All",
-      "description": "快速获取桌面、任务栏或当前最前方的活动窗口",
-      "keywords": [
-        "window",
-        "special",
-        "desktop",
-        "taskbar",
-        "桌面窗口"
-      ],
-      "fields": [
-        {
-          "name": "window",
-          "display_name": "特殊窗口类型",
-          "intrinsic_type": "string",
-          "default_type": "string",
-          "default_value": "Desktop",
-          "presets": [
-            "Desktop",
-            "Foreground",
-            "Shell_TrayWnd"
-          ],
-          "description": "特殊系统窗口名称"
-        }
-      ],
-      "output_type": "Wnd"
-    },
-    {
-      "tag": "WinRun",
-      "display_name": "打开运行对话框 (WinRun)",
-      "icon": "🚀",
-      "platforms": "All",
-      "description": "打开 Windows 系统的「运行」(Win+R) 窗口",
-      "keywords": [
-        "window",
-        "run",
-        "dialog",
-        "运行对话框"
-      ],
-      "fields": [
-        {
-          "name": "window",
-          "display_name": "目标窗口",
-          "intrinsic_type": "string",
-          "default_type": "string",
-          "default_value": "",
-          "presets": [],
-          "description": "目标窗口"
+          "description": "Z-Order 操作 (变量名: order)"
         }
       ],
       "output_type": "bool"
@@ -434,7 +570,7 @@
       "tag": "WindowAncestor",
       "display_name": "获取父级/祖先窗口 (WindowAncestor)",
       "icon": "🌳",
-      "platforms": "All",
+      "platforms": "Windows",
       "description": "获取当前子窗口所属的上层父窗口或主程序窗口",
       "keywords": [
         "window",
@@ -447,16 +583,23 @@
         {
           "name": "window",
           "display_name": "子窗口对象",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Wnd",
+          "required": true,
+          "group": "窗口目标",
           "default_type": "string",
           "default_value": "",
-          "presets": [],
-          "description": "目标子窗口"
+          "presets": [
+            "Foreground",
+            "Desktop"
+          ],
+          "description": "目标子窗口 (变量名: window)"
         },
         {
           "name": "ancestor",
           "display_name": "关系类型",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Enum",
+          "required": true,
+          "group": "关系类型",
           "default_type": "string",
           "default_value": "Parent",
           "presets": [
@@ -464,17 +607,17 @@
             "Root",
             "RootOwner"
           ],
-          "description": "祖先层级类型"
+          "description": "祖先层级类型 (变量名: ancestor)"
         }
       ],
-      "output_type": "Wnd"
+      "output_type": "wnd"
     },
     {
-      "tag": "WindowCaption",
-      "display_name": "获取/修改窗口标题 (WindowCaption)",
+      "tag": "GetWindowCaption",
+      "display_name": "获取窗口标题 (GetWindowCaption)",
       "icon": "🏷️",
-      "platforms": "All",
-      "description": "读取当前窗口的标题文字，或将窗口标题修改为新文本",
+      "platforms": "Windows",
+      "description": "读取指定窗口的当前标题栏文本内容",
       "keywords": [
         "window",
         "caption",
@@ -485,30 +628,67 @@
         {
           "name": "window",
           "display_name": "目标窗口",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Wnd",
+          "required": true,
+          "group": "窗口目标",
           "default_type": "string",
           "default_value": "",
-          "presets": [],
-          "description": "目标窗口"
-        },
-        {
-          "name": "caption",
-          "display_name": "新标题 (留空则获取)",
-          "intrinsic_type": "string",
-          "default_type": "string",
-          "default_value": "",
-          "presets": [],
-          "description": "要设置的标题文本"
+          "presets": [
+            "Foreground",
+            "Desktop"
+          ],
+          "description": "目标窗口 (变量名: window)"
         }
       ],
       "output_type": "string"
     },
     {
-      "tag": "WindowPoint",
-      "display_name": "根据锚点计算窗口坐标 (WindowPoint)",
+      "tag": "SetWindowCaption",
+      "display_name": "设置窗口标题 (SetWindowCaption)",
+      "icon": "✏️",
+      "platforms": "Windows",
+      "description": "将指定窗口的标题栏更新修改为新文本内容",
+      "keywords": [
+        "window",
+        "caption",
+        "title",
+        "设置标题"
+      ],
+      "fields": [
+        {
+          "name": "window",
+          "display_name": "目标窗口",
+          "intrinsic_type": "Wnd",
+          "required": true,
+          "group": "窗口目标",
+          "default_type": "string",
+          "default_value": "",
+          "presets": [
+            "Foreground",
+            "Desktop"
+          ],
+          "description": "目标窗口 (变量名: window)"
+        },
+        {
+          "name": "caption",
+          "display_name": "新标题",
+          "intrinsic_type": "String",
+          "required": true,
+          "group": "标题文本",
+          "default_type": "string",
+          "default_value": "",
+          "presets": [],
+          "description": "要设置的窗口新标题文本 (变量名: caption)"
+        }
+      ],
+      "output_type": "bool"
+    },
+    {
+      "tag": "GetWindowPoint",
+      "display_name": "获取窗口相对坐标 (GetWindowPoint)",
       "icon": "📍",
-      "platforms": "All",
-      "description": "根据窗口左上角、右上角或中心位置计算对应的屏幕坐标",
+      "platforms": "Windows",
+      "description": "根据窗口锚点 (如 TopLeft、Center) 及像素偏移量计算相对窗口的屏幕物理坐标（提示：X/Y 坐标使用多显示器屏幕绝对逻辑像素，兼容高 DPI 缩放自适应）",
       "keywords": [
         "window",
         "point",
@@ -520,16 +700,23 @@
         {
           "name": "window",
           "display_name": "目标窗口",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Wnd",
+          "required": true,
+          "group": "窗口目标",
           "default_type": "string",
           "default_value": "",
-          "presets": [],
-          "description": "目标窗口"
+          "presets": [
+            "Foreground",
+            "Desktop"
+          ],
+          "description": "目标窗口 (变量名: window)"
         },
         {
           "name": "relative",
           "display_name": "相对锚点方位",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Enum",
+          "required": true,
+          "group": "锚点与偏移",
           "default_type": "string",
           "default_value": "TopLeft",
           "presets": [
@@ -539,90 +726,78 @@
             "BottomRight",
             "Center"
           ],
-          "description": "基准锚点"
+          "description": "基准锚点 (变量名: relative)"
         },
         {
-          "name": "offset",
-          "display_name": "坐标偏移 (X, Y)",
-          "intrinsic_type": "string",
-          "default_type": "string",
-          "default_value": "0,0",
+          "name": "offset_x",
+          "display_name": "X 坐标偏移",
+          "intrinsic_type": "Integer",
+          "group": "锚点与偏移",
+          "default_type": "number",
+          "default_value": "0",
           "presets": [
-            "0,0",
-            "10,10"
+            "0",
+            "10",
+            "-10",
+            "100"
           ],
-          "description": "相对锚点偏移量"
-        }
-      ],
-      "output_type": "string"
-    },
-    {
-      "tag": "WindowSize",
-      "display_name": "调整/获取窗口尺寸 (WindowSize)",
-      "icon": "📏",
-      "platforms": "All",
-      "description": "调整软件窗口的宽度和高度，或读取当前窗口尺寸",
-      "keywords": [
-        "window",
-        "size",
-        "resize",
-        "窗口尺寸"
-      ],
-      "fields": [
-        {
-          "name": "window",
-          "display_name": "目标窗口",
-          "intrinsic_type": "string",
-          "default_type": "string",
-          "default_value": "",
-          "presets": [],
-          "description": "目标窗口"
+          "description": "相对锚点 X 轴偏移量（像素） (变量名: offset_x)"
         },
         {
-          "name": "size",
-          "display_name": "尺寸大小 (W, H)",
-          "intrinsic_type": "string",
-          "default_type": "string",
-          "default_value": "800,600",
+          "name": "offset_y",
+          "display_name": "Y 坐标偏移",
+          "intrinsic_type": "Integer",
+          "group": "锚点与偏移",
+          "default_type": "number",
+          "default_value": "0",
           "presets": [
-            "800,600",
-            "1024,768",
-            "1920,1080"
+            "0",
+            "10",
+            "-10",
+            "100"
           ],
-          "description": "窗口分辨率"
+          "description": "相对锚点 Y 轴偏移量（像素） (变量名: offset_y)"
         }
       ],
-      "output_type": "string"
+      "output_type": "point"
     },
     {
-      "tag": "WindowVisible",
-      "display_name": "窗口显隐/最大最小化 (WindowVisible)",
+      "tag": "SetWindowState",
+      "display_name": "设置窗口形态与显隐 (SetWindowState)",
       "icon": "👁️",
-      "platforms": "All",
-      "description": "控制窗口显示、隐藏、最大化、最小化或还原默认大小",
+      "platforms": "Windows",
+      "description": "统一控制指定窗口的显隐与形态（显示 Show、隐藏 Hide、最大化 Maximize、最小化 Minimize、还原 Restore）",
       "keywords": [
         "window",
+        "state",
         "visible",
         "show",
         "hide",
         "maximize",
         "minimize",
-        "窗口显示隐藏"
+        "窗口形态"
       ],
       "fields": [
         {
           "name": "window",
           "display_name": "目标窗口",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Wnd",
+          "required": true,
+          "group": "窗口目标",
           "default_type": "string",
           "default_value": "",
-          "presets": [],
-          "description": "目标窗口"
+          "presets": [
+            "Foreground",
+            "Desktop"
+          ],
+          "description": "目标窗口 (变量名: window)"
         },
         {
-          "name": "visible",
+          "name": "state",
           "display_name": "显隐状态操作",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Enum",
+          "required": true,
+          "group": "状态操作",
           "default_type": "string",
           "default_value": "Show",
           "presets": [
@@ -632,48 +807,331 @@
             "Minimize",
             "Restore"
           ],
-          "description": "显隐控制选项"
+          "description": "显隐控制选项 (变量名: state)"
         }
       ],
       "output_type": "bool"
     },
     {
-      "tag": "WindowXy",
-      "display_name": "移动窗口位置 (WindowXy)",
-      "icon": "🧭",
+      "tag": "NotifyMessage",
+      "display_name": "消息通知 (NotifyMessage)",
+      "icon": "🔔",
       "platforms": "All",
-      "description": "将软件窗口平移移动到桌面的指定坐标位置",
+      "description": "在操作系统桌面弹出原生 Toast 气泡消息通知",
       "keywords": [
         "window",
+        "notify",
+        "notification",
+        "toast",
+        "message",
+        "消息通知",
+        "气泡通知"
+      ],
+      "fields": [
+        {
+          "name": "title",
+          "display_name": "通知标题",
+          "intrinsic_type": "String",
+          "required": true,
+          "group": "通知内容",
+          "default_type": "string",
+          "default_value": "任务通知",
+          "presets": [
+            "提示",
+            "警告",
+            "执行完成"
+          ],
+          "description": "通知对话框的标题内容 (变量名: title)"
+        },
+        {
+          "name": "body",
+          "display_name": "通知内容",
+          "intrinsic_type": "String",
+          "required": true,
+          "group": "通知内容",
+          "default_type": "string",
+          "default_value": "",
+          "presets": [],
+          "description": "通知的主体详细说明文字 (变量名: body)"
+        },
+        {
+          "name": "app_name",
+          "display_name": "应用名称",
+          "intrinsic_type": "String",
+          "group": "样式与图示",
+          "default_type": "string",
+          "default_value": "小友+",
+          "presets": [
+            "小友+"
+          ],
+          "description": "来源应用标识名称 (变量名: app_name)"
+        },
+        {
+          "name": "icon",
+          "display_name": "通知图标",
+          "intrinsic_type": "String",
+          "group": "样式与图示",
+          "default_type": "string",
+          "default_value": "",
+          "presets": [
+            "info",
+            "warning",
+            "error"
+          ],
+          "description": "预设图标名称或本地图片路径 (变量名: icon)"
+        },
+        {
+          "name": "timeout",
+          "display_name": "停留时长(毫秒)",
+          "intrinsic_type": "Integer",
+          "group": "停留时长",
+          "default_type": "number",
+          "default_value": "5000",
+          "presets": [
+            "3000",
+            "5000",
+            "10000",
+            "0"
+          ],
+          "description": "通知展示持续时间，0 表示常驻通知中心 (变量名: timeout)"
+        },
+        {
+          "name": "sound",
+          "display_name": "提示音",
+          "intrinsic_type": "Enum",
+          "group": "样式与图示",
+          "default_type": "string",
+          "default_value": "default",
+          "presets": [
+            "default",
+            "silent"
+          ],
+          "description": "通知声音设置（default 默认音效，silent 静音） (变量名: sound)"
+        }
+      ],
+      "output_type": "bool"
+    },
+    {
+      "tag": "SetWindowGeometry",
+      "display_name": "设置窗口位置与尺寸 (SetWindowGeometry)",
+      "icon": "📐",
+      "platforms": "Windows",
+      "description": "主推荐位置尺寸设置原子：一次性设置窗口位置 (X, Y) 与尺寸 (Width, Height)，传入 -1 表示保持对应维度不变（提示：X/Y 坐标使用多显示器屏幕绝对逻辑像素，兼容高 DPI 缩放自适应）",
+      "keywords": [
+        "window",
+        "geometry",
+        "bounds",
         "move",
-        "xy",
-        "position",
-        "移动窗口"
+        "resize",
+        "窗口位置与尺寸"
       ],
       "fields": [
         {
           "name": "window",
           "display_name": "目标窗口",
-          "intrinsic_type": "string",
+          "intrinsic_type": "Wnd",
+          "required": true,
+          "group": "窗口目标",
           "default_type": "string",
           "default_value": "",
-          "presets": [],
-          "description": "目标窗口"
+          "presets": [
+            "Foreground",
+            "Desktop"
+          ],
+          "description": "目标窗口对象或句柄 (变量名: window)"
         },
         {
-          "name": "xy",
-          "display_name": "目标坐标 (X, Y)",
-          "intrinsic_type": "string",
-          "default_type": "string",
-          "default_value": "100,100",
+          "name": "x",
+          "display_name": "X 坐标",
+          "intrinsic_type": "Integer",
+          "group": "位置与尺寸",
+          "default_type": "number",
+          "default_value": "-1",
           "presets": [
-            "0,0",
-            "100,100"
+            "-1",
+            "0",
+            "100",
+            "500"
           ],
-          "description": "目标屏幕绝对坐标"
+          "description": "目标屏幕 X 坐标 (-1 表示保持不变，使用绝对屏幕逻辑像素) (变量名: x)"
+        },
+        {
+          "name": "y",
+          "display_name": "Y 坐标",
+          "intrinsic_type": "Integer",
+          "group": "位置与尺寸",
+          "default_type": "number",
+          "default_value": "-1",
+          "presets": [
+            "-1",
+            "0",
+            "100",
+            "500"
+          ],
+          "description": "目标屏幕 Y 坐标 (-1 表示保持不变，使用绝对屏幕逻辑像素) (变量名: y)"
+        },
+        {
+          "name": "width",
+          "display_name": "宽度 (Width)",
+          "intrinsic_type": "Integer",
+          "group": "位置与尺寸",
+          "default_type": "number",
+          "default_value": "-1",
+          "presets": [
+            "-1",
+            "800",
+            "1024",
+            "1920"
+          ],
+          "description": "目标窗口宽度 (-1 表示保持不变) (变量名: width)"
+        },
+        {
+          "name": "height",
+          "display_name": "高度 (Height)",
+          "intrinsic_type": "Integer",
+          "group": "位置与尺寸",
+          "default_type": "number",
+          "default_value": "-1",
+          "presets": [
+            "-1",
+            "600",
+            "768",
+            "1080"
+          ],
+          "description": "目标窗口高度 (-1 表示保持不变) (变量名: height)"
         }
       ],
       "output_type": "bool"
+    },
+    {
+      "tag": "WaitWindow",
+      "display_name": "等待窗口状态 (WaitWindow)",
+      "icon": "⏳",
+      "platforms": "Windows",
+      "description": "等待目标窗口出现 (Appears)、消失 (Disappears) 或被激活为前台 (Active)",
+      "keywords": [
+        "window",
+        "wait",
+        "appears",
+        "disappears",
+        "active",
+        "等待窗口"
+      ],
+      "fields": [
+        {
+          "name": "parent_window",
+          "display_name": "父窗口",
+          "intrinsic_type": "Wnd",
+          "group": "作用域",
+          "default_type": "string",
+          "default_value": "",
+          "presets": [
+            "Desktop",
+            "Foreground"
+          ],
+          "description": "父窗口限定 (变量名: parent_window)"
+        },
+        {
+          "name": "caption",
+          "display_name": "窗口标题",
+          "intrinsic_type": "String",
+          "required": true,
+          "group": "匹配条件",
+          "default_type": "string",
+          "default_value": "",
+          "presets": [],
+          "description": "窗口标题（支持通配符） (变量名: caption)"
+        },
+        {
+          "name": "window_class",
+          "display_name": "窗口类名",
+          "intrinsic_type": "String",
+          "group": "匹配条件",
+          "default_type": "string",
+          "default_value": "",
+          "presets": [],
+          "description": "窗口类名 (变量名: window_class)"
+        },
+        {
+          "name": "state",
+          "display_name": "目标状态",
+          "intrinsic_type": "Enum",
+          "required": true,
+          "group": "等待控制",
+          "default_type": "string",
+          "default_value": "Appears",
+          "presets": [
+            "Appears",
+            "Disappears",
+            "Active"
+          ],
+          "description": "等待的目标窗口状态 (变量名: state)"
+        },
+        {
+          "name": "timeout_ms",
+          "display_name": "超时时间 (毫秒)",
+          "intrinsic_type": "Integer",
+          "required": true,
+          "group": "等待控制",
+          "default_type": "number",
+          "default_value": "30000",
+          "presets": [
+            "5000",
+            "10000",
+            "30000",
+            "60000"
+          ],
+          "description": "最长等待超时时间（毫秒） (变量名: timeout_ms)"
+        },
+        {
+          "name": "throw_on_timeout",
+          "display_name": "超时抛错",
+          "intrinsic_type": "Boolean",
+          "group": "等待控制",
+          "is_advanced": true,
+          "default_type": "boolean",
+          "default_value": "true",
+          "presets": [
+            "true",
+            "false"
+          ],
+          "description": "超时未满足状态时是否抛出异常阻断流程 (true 抛错, false 不抛错) (变量名: throw_on_timeout)"
+        }
+      ],
+      "output_type": "wnd"
+    },
+    {
+      "tag": "GetWindowInfo",
+      "display_name": "获取窗口综合信息 (GetWindowInfo)",
+      "icon": "ℹ️",
+      "platforms": "Windows",
+      "description": "一次性读取并返回窗口的句柄、标题、类名、PID、进程名、坐标宽高及状态属性",
+      "keywords": [
+        "window",
+        "info",
+        "inspect",
+        "attributes",
+        "rect",
+        "pid",
+        "获取窗口信息"
+      ],
+      "fields": [
+        {
+          "name": "window",
+          "display_name": "目标窗口",
+          "intrinsic_type": "Wnd",
+          "required": true,
+          "group": "窗口目标",
+          "default_type": "string",
+          "default_value": "",
+          "presets": [
+            "Foreground",
+            "Desktop"
+          ],
+          "description": "目标窗口对象或句柄 (变量名: window)"
+        }
+      ],
+      "output_type": "string"
     }
   ]
 }
